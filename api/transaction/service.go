@@ -192,7 +192,8 @@ func (s *Service) GetTransactionsByAccount(budgetID, accountID string,
 
 	resModel := struct {
 		Data struct {
-			Transactions []*Transaction `json:"transactions"`
+			Transactions          []*Transaction `json:"transactions"`
+			LastKnowledgeOfServer uint64         `json:"server_knowledge"`
 		} `json:"data"`
 	}{}
 
@@ -202,7 +203,7 @@ func (s *Service) GetTransactionsByAccount(budgetID, accountID string,
 	}
 
 	if err := s.c.GET(url, &resModel); err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
 	return resModel.Data.Transactions, resModel.Data.LastKnowledgeOfServer, nil
