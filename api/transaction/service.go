@@ -188,7 +188,7 @@ func (s *Service) UpdateTransactions(budgetID string,
 // from a budget with filtering capabilities
 // https://api.youneedabudget.com/v1#/Transactions/getTransactionsByAccount
 func (s *Service) GetTransactionsByAccount(budgetID, accountID string,
-	f *Filter) ([]*Transaction, error) {
+	f *Filter) ([]*Transaction, uint64, error) {
 
 	resModel := struct {
 		Data struct {
@@ -205,7 +205,7 @@ func (s *Service) GetTransactionsByAccount(budgetID, accountID string,
 		return nil, err
 	}
 
-	return resModel.Data.Transactions, nil
+	return resModel.Data.Transactions, resModel.Data.LastKnowledgeOfServer, nil
 }
 
 // GetTransactionsByCategory fetches the list of transactions of a specific category
